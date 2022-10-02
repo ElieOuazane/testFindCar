@@ -1,8 +1,11 @@
+log = console.log;
+
 var DATA;
 var FIELDS;
-//
+var VTYPE;
 
 document.querySelector("form").addEventListener("submit", (e) => {
+
   // מונע רענון דף
   e.preventDefault();
 
@@ -13,58 +16,65 @@ document.querySelector("form").addEventListener("submit", (e) => {
   // null or undefined stop
   if (!carId) return alert("נא למלא מספר רכב");
 
-  // קישור לAPI
-  //   const API_ENDPOINT =
-  //     "https://data.gov.il/api/3/action/datastore_search?resource_id=053cea08-09bc-40ec-8f7a-156f0677aff3&q=";
-
-  const api_links = {
-    API_ENDPOINT: [
+  const  API_ENDPOINTS =  [
       {
-        name: "normal cars",
-        api_link:
+        name: "normal_cars",
+        link:
           "https://data.gov.il/api/3/action/datastore_search?resource_id=053cea08-09bc-40ec-8f7a-156f0677aff3&q=",
       },
       {
-        name: "other cars",
-        api_link:
-          "https://data.gov.il/api/3/action/datastore_search?resource_id=cd3acc5c-03c3-4c89-9c54-d40f93c0d790&limit=",
+        name: "private_cars",
+        link:
+          "https://data.gov.il/api/3/action/datastore_search?resource_id=03adc637-b6fe-402b-9937-7c3d3afc9140&q=",
       },
       {
-        name: "private cars",
-        api_link:
-          "https://data.gov.il/api/3/action/datastore_search?resource_id=03adc637-b6fe-402b-9937-7c3d3afc9140&limit=",
+        name: "heavy_trucks",
+        link:
+          "https://data.gov.il/api/3/action/datastore_search?resource_id=cd3acc5c-03c3-4c89-9c54-d40f93c0d790&q=",
       },
-    ],
-  };
-  Object.API_ENDPOINT.forEach()
+  
+    ]
 
+    API_ENDPOINTS.forEach(async (endpoint) =>{
 
-
-
-    // async function
-    async () => {
       // פונה ל
       // API
       // עם מספר הרכב
-      let req = await fetch(`${API_ENDPOINT}${carId}`);
+      let req = await fetch(`${endpoint.link}${carId}`)
       let res = await req.json();
 
-      if (!res.success) return alert("קריאה לAPI נכשלה.");
+      if (!res.success) return alert("קריאה לAPI נכשלה.")
       if (res.result.records.length > 1)
         return alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
 
-      DATA = await res.result.records[0];
-      FIELDS = await res.result.fields;
 
-      if (!DATA) {
-        property_data = `
-            <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
-            <hr>
-            `;
-        document.querySelector("#numberCar").innerHTML = property_data;
-        document.querySelector("#numberMisgeret").innerHTML = "";
-        document.querySelector("#data").innerHTML = "";
+      // verify locally if there is data
+      let data = await res.result.records[0]
+      if (data) {
+        VTYPE = endpoint.name
+        DATA = await res.result.records[0];
+        FIELDS = await res.result.fields;
       }
+
+
+
+
+    })
+
+
+
+    if (!DATA) {
+      property_data = `
+          <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
+          <hr>
+          `;
+      document.querySelector("#numberCar").innerHTML = property_data;
+      document.querySelector("#numberMisgeret").innerHTML = "";
+      document.querySelector("#data").innerHTML = "";
+    }
+
+
+    if (VTYPE == 'normal_cars') {
 
       delete DATA._id;
       delete DATA.rank;
@@ -166,8 +176,16 @@ document.querySelector("form").addEventListener("submit", (e) => {
       });
 
       document.querySelector("#data").innerHTML = items.join("");
+
     }
-  )();
+
+ 
+
+
+    
+
+
+
 });
 
 /**

@@ -1,10 +1,14 @@
 log = console.log;
 
+var searchWrapperAfterclicking = document.getElementById("search-wrapper");
+
 var DATA;
 var FIELDS;
 var VTYPE;
 
 document.querySelector("form").addEventListener("submit", (e) => {
+  searchWrapperAfterclicking.style.height = "300px";
+
   // מונע רענון דף
   e.preventDefault();
 
@@ -49,7 +53,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
         VTYPE = API_ENDPOINTS[index].name;
         DATA = await res.result.records[0];
         FIELDS = await res.result.fields;
-
         showData();
       } else {
         VTYPE = undefined;
@@ -64,6 +67,7 @@ document.querySelector("form").addEventListener("submit", (e) => {
           <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
           <hr>
           `;
+
     document.querySelector("#numberCar").innerHTML = property_data;
     document.querySelector("#numberMisgeret").innerHTML = "";
     document.querySelector("#data").innerHTML = "";

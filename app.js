@@ -265,7 +265,7 @@ function showDataWithFilteringForPivateCars() {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
-  let htmlTemplate = `<div class="col"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
+  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:19%"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
 
   let items = [];
 
@@ -360,7 +360,7 @@ function showDataWithFilteringForHeavyTrucks() {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
-  let htmlTemplate = `<div class="col"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
+  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:19%"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
 
   let items = [];
 

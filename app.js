@@ -148,13 +148,12 @@ function showDataWithFilteringforNoramlCar() {
       2,
       5
     )}-${mispar_rechev.slice(5, 7)}`;
-  }
-  if (mispar_rechev.length > 7) {
+  } else if (mispar_rechev.length == 8) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
       3,
       5
     )}-${mispar_rechev.slice(5, 8)}`;
-  }else{
+  } else {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
@@ -257,13 +256,12 @@ function showDataWithFilteringForPivateCars() {
       2,
       5
     )}-${mispar_rechev.slice(5, 7)}`;
-  }
-  if (mispar_rechev.length > 7) {
+  } else if (mispar_rechev.length == 8) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
       3,
       5
     )}-${mispar_rechev.slice(5, 8)}`;
-  }else{
+  } else {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
@@ -354,12 +352,10 @@ function showDataWithFilteringForHeavyTrucks() {
   DATA.moed_aliya_lakvish = `${moed_aliya_lakvish[1]}-${moed_aliya_lakvish[0]}`;
 
   if (mispar_rechev.length == 5) {
-    DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(2,5)}`;
-  } if (mispar_rechev.length > 7) {
-    DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
-      3,
+    DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(
+      2,
       5
-    )}-${mispar_rechev.slice(5, 8)}`;
+    )}`;
   } else {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }

@@ -52,10 +52,10 @@ document.querySelector("form").addEventListener("submit", (e) => {
         <p style="text-align: center; font-size: 50px;"> <b>נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית</b></p>
         <hr>
         `;
-        document.querySelector("#numberCar").innerHTML =
+        document.querySelector("#typeOfCar").innerHTML =
           property_data_if_have_more_then_one;
         document.querySelector("#numberMisgeret").innerHTML = "";
-        document.querySelector("#typeOfCar").innerHTML = "";
+        document.querySelector("#numberCar").innerHTML = "";
         document.querySelector("#data").innerHTML = "";
         // alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
         return;
@@ -76,9 +76,10 @@ document.querySelector("form").addEventListener("submit", (e) => {
       <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
       <hr>
       `;
-    document.querySelector("#numberCar").innerHTML = property_data;
+    document.querySelector("#typeOfCar").innerHTML = property_data;
+
+    document.querySelector("#numberCar").innerHTML = "";
     document.querySelector("#numberMisgeret").innerHTML = "";
-    document.querySelector("#typeOfCar").innerHTML = "";
     document.querySelector("#data").innerHTML = "";
   }
 });
@@ -147,11 +148,14 @@ function showDataWithFilteringforNoramlCar() {
       2,
       5
     )}-${mispar_rechev.slice(5, 7)}`;
-  } else {
+  }
+  if (mispar_rechev.length > 7) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
       3,
       5
     )}-${mispar_rechev.slice(5, 8)}`;
+  }else{
+    DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
   let htmlTemplate = `<div class="col"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
@@ -161,6 +165,18 @@ function showDataWithFilteringforNoramlCar() {
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
 
+    if (key == "kinuy_mishari") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:40px">${getHebrewName(
+                  key
+                )}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
     if (key == "mispar_rechev") {
       let copyTextMispar_rechev = "";
       copyTextMispar_rechev = `
@@ -196,17 +212,6 @@ function showDataWithFilteringforNoramlCar() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-    
-    if (key == "kinuy_mishari") {
-      let copyTextofCare = "";
-      copyTextofCare = ` 
-            <div style="line-height: 1.5;"> 
-                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
-            </div>
-            <hr style="border-top: 2px solid black">
-            `;
-      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
-    }
 
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
@@ -226,7 +231,7 @@ function showDataWithFilteringforNoramlCar() {
 function showDataWithFilteringForPivateCars() {
   delete DATA._id;
   delete DATA.rank;
-
+  DATA.tozeret_nm = DATA.tozeret_nm.replace(/[''/""]+/g, "");
   let reOrder = {
     tozeret_nm: DATA.tozeret_nm,
   };
@@ -252,11 +257,14 @@ function showDataWithFilteringForPivateCars() {
       2,
       5
     )}-${mispar_rechev.slice(5, 7)}`;
-  } else {
+  }
+  if (mispar_rechev.length > 7) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
       3,
       5
     )}-${mispar_rechev.slice(5, 8)}`;
+  }else{
+    DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
   let htmlTemplate = `<div class="col"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
@@ -265,7 +273,18 @@ function showDataWithFilteringForPivateCars() {
 
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
-
+    if (key == "tozeret_nm") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:40px">${getHebrewName(
+                  key
+                )}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
     if (key == "mispar_rechev") {
       let copyTextMispar_rechev = "";
       copyTextMispar_rechev = `
@@ -301,16 +320,7 @@ function showDataWithFilteringForPivateCars() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-    if (key == "tozeret_nm") {
-      let copyTextofCare = "";
-      copyTextofCare = ` 
-            <div style="line-height: 1.5;"> 
-                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
-            </div>
-            <hr style="border-top: 2px solid black">
-            `;
-      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
-    }
+
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }
@@ -329,6 +339,7 @@ function showDataWithFilteringForPivateCars() {
 function showDataWithFilteringForHeavyTrucks() {
   delete DATA._id;
   delete DATA.rank;
+  DATA.tozeret_nm = DATA.tozeret_nm.replace(/[''/""]+/g, "");
 
   let reOrder = {
     tozeret_nm: DATA.tozeret_nm,
@@ -342,16 +353,15 @@ function showDataWithFilteringForHeavyTrucks() {
   const moed_aliya_lakvish = DATA.moed_aliya_lakvish.split("-");
   DATA.moed_aliya_lakvish = `${moed_aliya_lakvish[1]}-${moed_aliya_lakvish[0]}`;
 
-  if (mispar_rechev.length == 7) {
-    DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(
-      2,
-      5
-    )}-${mispar_rechev.slice(5, 7)}`;
-  } else {
+  if (mispar_rechev.length == 5) {
+    DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(2,5)}`;
+  } if (mispar_rechev.length > 7) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 3)}-${mispar_rechev.slice(
       3,
       5
     )}-${mispar_rechev.slice(5, 8)}`;
+  } else {
+    DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
   let htmlTemplate = `<div class="col"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
@@ -360,7 +370,18 @@ function showDataWithFilteringForHeavyTrucks() {
 
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
-
+    if (key == "tozeret_nm") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:40px">${getHebrewName(
+                  key
+                )}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
     if (key == "mispar_rechev") {
       let copyTextMispar_rechev = "";
       copyTextMispar_rechev = `
@@ -396,16 +417,7 @@ function showDataWithFilteringForHeavyTrucks() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-    if (key == "tozeret_nm") {
-      let copyTextofCare = "";
-      copyTextofCare = ` 
-            <div style="line-height: 1.5;"> 
-                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
-            </div>
-            <hr style="border-top: 2px solid black">
-            `;
-      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
-    }
+
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }

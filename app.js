@@ -1,13 +1,10 @@
-log = console.log;
-
-var searchWrapperAfterclicking = document.getElementById("search-wrapper");
-
 var DATA;
 var FIELDS;
 var VTYPE;
 
 document.querySelector("form").addEventListener("submit", (e) => {
-  searchWrapperAfterclicking.style.height = "300px";
+  document.getElementById("search-wrapper").style.height = "300px";
+  document.getElementById("data").style.paddingBottom = "1%";
 
   // מונע רענון דף
   e.preventDefault();
@@ -60,7 +57,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
         // alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
         return;
       }
-
       // verify locally if there is data
       if (DATA) {
         showData();
@@ -120,29 +116,22 @@ function copyTextChassis() {
 function showDataWithFilteringforNoramlCar() {
   delete DATA._id;
   delete DATA.rank;
-
   let reOrder = {
     tozeret_nm: DATA.tozeret_nm,
     kinuy_mishari: DATA.kinuy_mishari,
   };
   delete DATA.kinuy_mishari;
   delete DATA.tozeret_nm;
-
   DATA = Object.assign(reOrder, DATA);
-
   let mispar_rechev = DATA.mispar_rechev + "";
-
   const moed_aliya_lakvish = DATA.moed_aliya_lakvish.split("-");
   DATA.moed_aliya_lakvish = `${moed_aliya_lakvish[1]}-${moed_aliya_lakvish[0]}`;
-
   DATA.tokef_dt = DATA.tokef_dt.slice(0, 10);
   DATA.tokef_dt = moment(DATA.tokef_dt).format("DD-MM-YYYY");
-
   DATA.mivchan_acharon_dt = DATA.mivchan_acharon_dt.slice(0, 10);
   DATA.mivchan_acharon_dt = moment(DATA.mivchan_acharon_dt).format(
     "DD-MM-YYYY"
   );
-
   if (mispar_rechev.length == 7) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(
       2,
@@ -157,13 +146,10 @@ function showDataWithFilteringforNoramlCar() {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
-  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:19%"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
-
+  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:calc(20% - 1em);"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
   let items = [];
-
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
-
     if (key == "kinuy_mishari") {
       let copyTextofCare = "";
       copyTextofCare = ` 
@@ -193,7 +179,6 @@ function showDataWithFilteringforNoramlCar() {
             `;
       document.querySelector("#numberCar").innerHTML = copyTextMispar_rechev;
     }
-
     if (key == "misgeret") {
       let copyTextMisgeret = "";
       copyTextMisgeret = ` 
@@ -211,18 +196,15 @@ function showDataWithFilteringforNoramlCar() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }
-
     let item = htmlTemplate
       .replace(/{key}/, getHebrewName(key))
       .replace(/{value}/, value);
 
     items.push(item);
   });
-
   document.querySelector("#data").innerHTML = items.join("");
 }
 
@@ -235,22 +217,16 @@ function showDataWithFilteringForPivateCars() {
     tozeret_nm: DATA.tozeret_nm,
   };
   delete DATA.tozeret_nm;
-
   DATA = Object.assign(reOrder, DATA);
-
   let mispar_rechev = DATA.mispar_rechev + "";
-
   const moed_aliya_lakvish = DATA.moed_aliya_lakvish.split("-");
   DATA.moed_aliya_lakvish = `${moed_aliya_lakvish[1]}-${moed_aliya_lakvish[0]}`;
-
   DATA.tokef_dt = DATA.tokef_dt.slice(0, 10);
   DATA.tokef_dt = moment(DATA.tokef_dt).format("DD-MM-YYYY");
-
   DATA.mivchan_acharon_dt = DATA.mivchan_acharon_dt.slice(0, 10);
   DATA.mivchan_acharon_dt = moment(DATA.mivchan_acharon_dt).format(
     "DD-MM-YYYY"
   );
-
   if (mispar_rechev.length == 7) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(
       2,
@@ -265,10 +241,8 @@ function showDataWithFilteringForPivateCars() {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
-  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:19%"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
-
+  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width: calc(20% - 1em)"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
   let items = [];
-
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
     if (key == "tozeret_nm") {
@@ -300,7 +274,6 @@ function showDataWithFilteringForPivateCars() {
             `;
       document.querySelector("#numberCar").innerHTML = copyTextMispar_rechev;
     }
-
     if (key == "shilda") {
       let copyTextMisgeret = "";
       copyTextMisgeret = ` 
@@ -318,18 +291,14 @@ function showDataWithFilteringForPivateCars() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }
-
     let item = htmlTemplate
       .replace(/{key}/, getHebrewName(key))
       .replace(/{value}/, value);
-
     items.push(item);
   });
-
   document.querySelector("#data").innerHTML = items.join("");
 }
 
@@ -338,19 +307,14 @@ function showDataWithFilteringForHeavyTrucks() {
   delete DATA._id;
   delete DATA.rank;
   DATA.tozeret_nm = DATA.tozeret_nm.replace(/[''/""]+/g, "");
-
   let reOrder = {
     tozeret_nm: DATA.tozeret_nm,
   };
   delete DATA.tozeret_nm;
-
   DATA = Object.assign(reOrder, DATA);
-
   let mispar_rechev = DATA.mispar_rechev + "";
-
   const moed_aliya_lakvish = DATA.moed_aliya_lakvish.split("-");
   DATA.moed_aliya_lakvish = `${moed_aliya_lakvish[1]}-${moed_aliya_lakvish[0]}`;
-
   if (mispar_rechev.length == 5) {
     DATA.mispar_rechev = `${mispar_rechev.slice(0, 2)}-${mispar_rechev.slice(
       2,
@@ -360,10 +324,8 @@ function showDataWithFilteringForHeavyTrucks() {
     DATA.mispar_rechev = `${mispar_rechev}`;
   }
   // מציג את הנתונים
-  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:19%"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
-
+  let htmlTemplate = `<div class="col" style="border: 1px solid #000; width:calc(20% - 1em)"><h6 style="font-weight:700;">{key}</h6><p>{value}</p></div>`;
   let items = [];
-
   Object.keys(DATA).forEach((key) => {
     let value = DATA[key];
     if (key == "tozeret_nm") {
@@ -395,7 +357,6 @@ function showDataWithFilteringForHeavyTrucks() {
             `;
       document.querySelector("#numberCar").innerHTML = copyTextMispar_rechev;
     }
-
     if (key == "mispar_shilda") {
       let copyTextMisgeret = "";
       copyTextMisgeret = ` 
@@ -413,17 +374,13 @@ function showDataWithFilteringForHeavyTrucks() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }
-
     let item = htmlTemplate
       .replace(/{key}/, getHebrewName(key))
       .replace(/{value}/, value);
-
     items.push(item);
   });
-
   document.querySelector("#data").innerHTML = items.join("");
 }

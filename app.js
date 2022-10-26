@@ -42,19 +42,28 @@ document.querySelector("form").addEventListener("submit", (e) => {
     (async () => {
       let req = await fetch(`${API_ENDPOINTS[index].link}${carId}`);
       let res = await req.json();
+      VTYPE = API_ENDPOINTS[index].name;
+      DATA = await res.result.records[0];
+      FIELDS = await res.result.fields;
 
       if (!res.success) return alert("קריאה לAPI נכשלה.");
-      if (res.result.records.length > 1)
-        return alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
+      if (res.result.records.length > 1) {
+        property_data_if_have_more_then_one = `
+        <p style="text-align: center; font-size: 50px;"> <b>נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית</b></p>
+        <hr>
+        `;
+        document.querySelector("#numberCar").innerHTML =
+          property_data_if_have_more_then_one;
+        document.querySelector("#numberMisgeret").innerHTML = "";
+        document.querySelector("#typeOfCar").innerHTML = "";
+        document.querySelector("#data").innerHTML = "";
+        // alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
+        return;
+      }
 
       // verify locally if there is data
-      let data = await res.result.records[0];
-      if (data) {
-        VTYPE = API_ENDPOINTS[index].name;
-        DATA = await res.result.records[0];
-        FIELDS = await res.result.fields;
+      if (DATA) {
         showData();
-      } else {
         VTYPE = undefined;
         DATA = undefined;
         FIELDS = undefined;
@@ -64,12 +73,12 @@ document.querySelector("form").addEventListener("submit", (e) => {
 
   if (!DATA) {
     property_data = `
-          <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
-          <hr>
-          `;
-
+      <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
+      <hr>
+      `;
     document.querySelector("#numberCar").innerHTML = property_data;
     document.querySelector("#numberMisgeret").innerHTML = "";
+    document.querySelector("#typeOfCar").innerHTML = "";
     document.querySelector("#data").innerHTML = "";
   }
 });
@@ -187,6 +196,17 @@ function showDataWithFilteringforNoramlCar() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
+    
+    if (key == "kinuy_mishari") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
 
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
@@ -264,7 +284,7 @@ function showDataWithFilteringForPivateCars() {
       document.querySelector("#numberCar").innerHTML = copyTextMispar_rechev;
     }
 
-    if (key == "misgeret") {
+    if (key == "shilda") {
       let copyTextMisgeret = "";
       copyTextMisgeret = ` 
             <div style="line-height: 1.5;"> 
@@ -281,7 +301,16 @@ function showDataWithFilteringForPivateCars() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-
+    if (key == "tozeret_nm") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }
@@ -350,7 +379,7 @@ function showDataWithFilteringForHeavyTrucks() {
       document.querySelector("#numberCar").innerHTML = copyTextMispar_rechev;
     }
 
-    if (key == "misgeret") {
+    if (key == "mispar_shilda") {
       let copyTextMisgeret = "";
       copyTextMisgeret = ` 
             <div style="line-height: 1.5;"> 
@@ -367,7 +396,16 @@ function showDataWithFilteringForHeavyTrucks() {
             `;
       document.querySelector("#numberMisgeret").innerHTML = copyTextMisgeret;
     }
-
+    if (key == "tozeret_nm") {
+      let copyTextofCare = "";
+      copyTextofCare = ` 
+            <div style="line-height: 1.5;"> 
+                <p style="font-size:30px">${getHebrewName(key)}:<span style="padding-right: 10%;"><b>${value}<b></span></p>                             
+            </div>
+            <hr style="border-top: 2px solid black">
+            `;
+      document.querySelector("#typeOfCar").innerHTML = copyTextofCare;
+    }
     if (key == "mispar_rechev") {
       value = value.replace(/\D/g, "");
     }

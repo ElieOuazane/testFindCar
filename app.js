@@ -4,6 +4,8 @@ var VTYPE;
 
 document.querySelector("form").addEventListener("submit", (e) => {
   document.getElementById("search-wrapper").style.height = "300px";
+  document.getElementById("search-wrapper").style.backgroundSize = "100vw 300px";
+
   document.getElementById("data").style.paddingBottom = "1%";
 
   // מונע רענון דף

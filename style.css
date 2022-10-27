@@ -10,5 +10,5 @@ body {
 .col {
   text-align: center;
   line-height: 1;
-
+  overflow: auto;
 }

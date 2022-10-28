@@ -1,10 +1,10 @@
 var DATA;
 var FIELDS;
 var VTYPE;
-
 document.querySelector("form").addEventListener("submit", (e) => {
   document.getElementById("search-wrapper").style.height = "300px";
-  document.getElementById("search-wrapper").style.backgroundSize = "100vw 300px";
+  document.getElementById("search-wrapper").style.backgroundSize =
+    "100vw 300px";
 
   document.getElementById("data").style.paddingBottom = "1%";
 
@@ -56,19 +56,14 @@ document.querySelector("form").addEventListener("submit", (e) => {
         document.querySelector("#numberMisgeret").innerHTML = "";
         document.querySelector("#numberCar").innerHTML = "";
         document.querySelector("#data").innerHTML = "";
-        // alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
         return;
       }
       // verify locally if there is data
       if (DATA) {
         showData();
-        VTYPE = undefined;
-        DATA = undefined;
-        FIELDS = undefined;
       }
     })();
   }
-
   if (!DATA) {
     property_data = `
       <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
@@ -81,7 +76,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
     document.querySelector("#data").innerHTML = "";
   }
 });
-
 function showData() {
   if (VTYPE == "normal_cars") {
     showDataWithFilteringforNoramlCar();

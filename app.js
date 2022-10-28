@@ -1,5 +1,4 @@
 //updating 28/10/2022: 3:30AM
-
 var DATA;
 var FIELDS;
 var VTYPE;
@@ -7,7 +6,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
   document.getElementById("search-wrapper").style.height = "300px";
   document.getElementById("search-wrapper").style.backgroundSize =
     "100vw 300px";
-
   document.getElementById("data").style.paddingBottom = "1%";
 
   // מונע רענון דף
@@ -46,13 +44,17 @@ document.querySelector("form").addEventListener("submit", (e) => {
       VTYPE = API_ENDPOINTS[index].name;
       DATA = await res.result.records[0];
       FIELDS = await res.result.fields;
-
       if (!res.success) return alert("קריאה לAPI נכשלה.");
+
+      // verify locally if there is data
+      if (DATA) {
+        showData();
+      }
       if (res.result.records.length > 1) {
         property_data_if_have_more_then_one = `
-        <p style="text-align: center; font-size: 50px;"> <b>נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית</b></p>
-        <hr>
-        `;
+          <p style="text-align: center; font-size: 50px;"> <b>נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית</b></p>
+          <hr>
+          `;
         document.querySelector("#typeOfCar").innerHTML =
           property_data_if_have_more_then_one;
         document.querySelector("#numberMisgeret").innerHTML = "";
@@ -60,24 +62,20 @@ document.querySelector("form").addEventListener("submit", (e) => {
         document.querySelector("#data").innerHTML = "";
         return;
       }
-      // verify locally if there is data
-      if (DATA) {
-        showData();
-      }
     })();
   }
-  if (!DATA) {
-    property_data = `
-      <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
-      <hr>
-      `;
-    document.querySelector("#typeOfCar").innerHTML = property_data;
-
-    document.querySelector("#numberCar").innerHTML = "";
-    document.querySelector("#numberMisgeret").innerHTML = "";
-    document.querySelector("#data").innerHTML = "";
-  }
 });
+if (!DATA) {
+  property_data = `
+    <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
+    <hr>
+    `;
+  document.querySelector("#typeOfCar").innerHTML = property_data;
+
+  document.querySelector("#numberCar").innerHTML = "";
+  document.querySelector("#numberMisgeret").innerHTML = "";
+  document.querySelector("#data").innerHTML = "";
+}
 function showData() {
   if (VTYPE == "normal_cars") {
     showDataWithFilteringforNoramlCar();

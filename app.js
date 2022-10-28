@@ -56,15 +56,11 @@ document.querySelector("form").addEventListener("submit", (e) => {
         document.querySelector("#numberMisgeret").innerHTML = "";
         document.querySelector("#numberCar").innerHTML = "";
         document.querySelector("#data").innerHTML = "";
-        // alert("נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית");
         return;
       }
       // verify locally if there is data
       if (DATA) {
         showData();
-        VTYPE = undefined;
-        DATA = undefined;
-        FIELDS = undefined;
       }
     })();
   }

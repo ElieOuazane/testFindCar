@@ -3,20 +3,18 @@ var DATA;
 var FIELDS;
 var VTYPE;
 document.querySelector("form").addEventListener("submit", (e) => {
+  // מונע רענון דף
+  e.preventDefault();
+  // לקחת מספר הרכב ולהשאיר רק מספרים
+  const carId = document.querySelector("input").value.replace(/\D/g, "");
+  // אם מספר רכב ריק או
+  // null or undefined stop
+  if (!carId) return alert("נא למלא מספר רכב");
+  // אם הכל בסדר !
   document.getElementById("search-wrapper").style.height = "300px";
   document.getElementById("search-wrapper").style.backgroundSize =
     "100vw 300px";
   document.getElementById("data").style.paddingBottom = "1%";
-
-  // מונע רענון דף
-  e.preventDefault();
-
-  // לקחת מספר הרכב ולהשאיר רק מספרים
-  const carId = document.querySelector("input").value.replace(/\D/g, "");
-
-  // אם מספר רכב ריק או
-  // null or undefined stop
-  if (!carId) return alert("נא למלא מספר רכב");
 
   const API_ENDPOINTS = [
     {
@@ -45,11 +43,6 @@ document.querySelector("form").addEventListener("submit", (e) => {
       DATA = await res.result.records[0];
       FIELDS = await res.result.fields;
       if (!res.success) return alert("קריאה לAPI נכשלה.");
-
-      // verify locally if there is data
-      if (DATA) {
-        showData();
-      }
       if (res.result.records.length > 1) {
         property_data_if_have_more_then_one = `
           <p style="text-align: center; font-size: 50px;"> <b>נמצאו יותר מרכב עם המספר הזה, נא לבדוק ידנית</b></p>
@@ -62,20 +55,24 @@ document.querySelector("form").addEventListener("submit", (e) => {
         document.querySelector("#data").innerHTML = "";
         return;
       }
+      // verify locally if there is data
+      if (DATA) {
+        showData();
+      }
     })();
   }
+  if (!DATA) {
+    property_data = `
+      <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
+      <hr>
+      `;
+    document.querySelector("#typeOfCar").innerHTML = property_data;
+    document.querySelector("#numberCar").innerHTML = "";
+    document.querySelector("#numberMisgeret").innerHTML = "";
+    document.querySelector("#data").innerHTML = "";
+  }
 });
-if (!DATA) {
-  property_data = `
-    <p style="text-align: center; font-size: 50px;"> <b>מספר רכב לא נמצא </b></p>
-    <hr>
-    `;
-  document.querySelector("#typeOfCar").innerHTML = property_data;
 
-  document.querySelector("#numberCar").innerHTML = "";
-  document.querySelector("#numberMisgeret").innerHTML = "";
-  document.querySelector("#data").innerHTML = "";
-}
 function showData() {
   if (VTYPE == "normal_cars") {
     showDataWithFilteringforNoramlCar();
@@ -94,6 +91,7 @@ const getHebrewName = (fieldName) => {
   return FIELDS.filter((d) => d.id == fieldName)[0].info?.notes ?? fieldName;
 };
 
+// פונקציה להעתקת הטקסט של מספר רישוי
 function copyTextLicense() {
   var copyText = document.getElementById("license_number");
   copyText.select();
@@ -101,6 +99,7 @@ function copyTextLicense() {
   navigator.clipboard.writeText(copyText.value);
 }
 
+// פונקציה להעתקת הטקסט של מספר שילדה
 function copyTextChassis() {
   var copyText = document.getElementById("chassis_number");
   copyText.select();
@@ -108,7 +107,7 @@ function copyTextChassis() {
   navigator.clipboard.writeText(copyText.value);
 }
 
-//פונקציה עבור רכב רגיל עם סינון נתונים
+//פונקציה להצגת נתוני עבור רכב רגיל עם סינון נתונים
 function showDataWithFilteringforNoramlCar() {
   delete DATA._id;
   delete DATA.rank;
@@ -204,7 +203,7 @@ function showDataWithFilteringforNoramlCar() {
   document.querySelector("#data").innerHTML = items.join("");
 }
 
-//פונקציה עבור רכב פרטי עם סינון נתונים
+//פונקציה להצגת נתונים עבור רכב פרטי עם סינון נתונים
 function showDataWithFilteringForPivateCars() {
   delete DATA._id;
   delete DATA.rank;
@@ -298,7 +297,7 @@ function showDataWithFilteringForPivateCars() {
   document.querySelector("#data").innerHTML = items.join("");
 }
 
-//פונקציה עבור רכב מעל 3.5 טון עם סינון נתונים
+//פונקציה להצגת נתונים עבור רכב מעל 3.5 טון עם סינון נתונים
 function showDataWithFilteringForHeavyTrucks() {
   delete DATA._id;
   delete DATA.rank;
